@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Washer Dashboard</title>
+    <!-- Add a link to your preferred icon font library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Add jQuery library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Add jQuery UI library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <style>
+        /* Add any custom styles here */
+        .logo {
+            margin-bottom: 20px; /* Add margin bottom to push the header container down */
+            width: 10%; /* Reduce the size by 80% */
+            display: block; /* Ensure it's a block element */
+            margin-left: auto; /* Center the logo horizontally */
+            margin-right: auto; /* Center the logo horizontally */
+        }
+
+        .header-container {
+            /* Remove background image */
+            background: linear-gradient(to right,  #ffffff, #8B4513);
+            color: black;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            position: relative;
+            margin-top: 30px; /* Adjust margin top to create space for the logo */
+        }
+
+        .user-name-container {
+            position: absolute;
+            top: 12px;
+            left: 120px; /* Moved a couple of inches to the left */
+            color: black; /* Changed color to black */
+            z-index: 1000;
+        }
+
+        /* Hide the iframe initially */
+        #meterReadingApp {
+            display: none;
+        }
+
+        /* Dropdown styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+            z-index: 1;
+            list-style-type: disc; /* Set list style type to bullet point */
+            padding-left: 20px; /* Adjust the padding to move the bullet point away from the text */
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: #3e8e41;
+        }
+
+        /* Styles for the date picker container */
+        .date-picker-container {
+            text-align: center;
+            margin-top: -60px; /* Adjust margin top */
+            margin-left: 1000px; /* Adjust margin left */
+            margin-bottom: 40px; /* Adjust margin bottom */
+        }
+
+        /* Styles for the date picker input field */
+        #datepicker-summary,
+        #datepicker-details {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Styles for the summary header and horizontal line */
+        .summary-header {
+            margin-top: -80px; /* Margin top for the header */
+            text-align: center; /* Center the header text */
+        }
+
+        .summary-line {
+            width: 100%; /* Full width of the container */
+            height: 1px; /* Thickness of the line */
+            background-color: blue; /* Color of the line */
+            margin-top: 40px; /* Margin top for the line */
+        }
+
+        /* Styles for the summary boxes */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            margin-left: 220px; /* Adjust margin-left to move the boxes to the right */
+        }
+
+        .summary-box {
+            width: 250px;
+            height: 180px;
+            margin: 0 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column; /* Align items vertically */
+            border-radius: 10px;
+            color: black;
+            font-weight: bold;
+            text-align: center;
+            background: linear-gradient(to bottom right, rgba(255, 255, 255, 4), rgba(169, 169, 169, 0.7)); /* Change gradient to white and grey with transparency */
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75); /* Add shadow effect */
+        }
+
+        /* Table styles */
+        table {
+            width: 70%;
+            border-collapse: collapse;
+            margin-left: 350px; /* Move the table to the right */
+            margin-top: 40px; /* Adjust margin top */
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Pagination styles */
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .page-link {
+            padding: 8px 16px;
+            text-decoration: none;
+            color: black;
+            border: 1px solid #ddd;
+            margin: 0 4px;
+        }
+
+        .page-link:hover {
+            background-color: #f2f2f2;
+        }
+
+        /* Styles for the footer */
+        .footer {
+            background-color: black;
+            color: yellow;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 20px;
+        }
+
+        /* Affiliate link style */
+        .affiliate-link {
+            position: absolute;
+            top: 0;
+            left: 20px; /* Adjust the position */
+            color: white;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        /* Hide the funeral cover qualifiers section initially */
+        #funeral-cover-qualifiers {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Affiliate Link -->
+    <a class="affiliate-link" href="my_login_page.html">My Loggin Page</a>
+
+    <!-- Logo Image -->
+    <img class="logo" src="https://ishipalam.co.za/wp-content/uploads/2024/03/1-1.png" alt="Logo">
+
+    <div class="header-container">
+        <header class="header">
+            <div class="header-content">Car Washer Dashboard</div>
+        </header>
+        <!-- Username Field Container -->
+        <div class="user-name-container">
+            <span>User123</span> <!-- Replace with actual username -->
+        </div>
+        <!-- Profile Icon -->
+        <div class="profile-icon" onclick="toggleProfileDropdown()">
+            <i class="fas fa-user-circle"></i> <!-- Example of using Font Awesome icon -->
+        </div>
+        <!-- Profile Dropdown Menu -->
+        <div class="profile-dropdown" id="profileDropdown">
+            <a href="#"><i class="fas fa-user"></i> Profile</a>
+            <a href="#"><i class="fas fa-lock"></i> Password</a>
+            <a href="#"><i class="fas fa-cog"></i> Settings</a> <!-- New "Settings" option -->
+            <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+
+    <!-- Affiliate Link Container (will be added dynamically) -->
+    <div id="affiliateLinkContainer" class="affiliate-link"></div>
+
+    <div class="navigation-container">
+        <nav class="navigation">
+            <ul class="nav-links">
+                <li class="dropdown">
+                    <a href="#" class="dropbtn"><i class="fas fa-chart-bar"></i> Analytics <i class="fas fa-caret-down"></i></a>
+                    <div class="dropdown-content">
+                        <a href="#bookings-per-day"><i class="fas fa-calendar-day"></i> Bookings per Day</a>
+                        <a href="#return-bookings" onclick="showReturnBookings()"><i class="fas fa-undo"></i> Return Bookings</a>
+                        <a href="#gross-revenue" onclick="showGrossRevenuePage()"><i class="fas fa-dollar-sign"></i> Gross Revenue</a>
+                        <a href="#cost-percentage"><i class="fas fa-percentage"></i> Cost % of Net Revenue</a>
+                    </div>
+                </li>
+                <li><a href="#funeral-cover-qualifiers" onclick="showFuneralCoverQualifiers()"><i class="fas fa-tint"></i> Funeral cover Qualifiers</a></li> <!-- Added link -->
+                <li><a href="#monthly-performance"><i class="fas fa-chart-line"></i> Monthly Performance</a></li>
+                <!-- New element -->
+                <li><a href="#" onclick="showMeterReadingApp()"><i class="fas fa-tachometer-alt"></i> Water Meter Readings</a></li>
+                <!-- Updated element "My Tire Score" with level icon -->
+                <li><a href="status_score_page.html"><i class="fas fa-level-up-alt"></i> My Status Score </a></li>
+                <!-- Added link -->
+                <!-- New element "Time Stamp" -->
+                <li><a href="time_stamp.html"><i class="far fa-clock"></i> Time Stamp</a></li>
+                <!-- New link for Net % of Revenue -->
+                <li><a href="net_revenue.html"><i class="fas fa-percentage"></i> Net % of Revenue</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Widget container for opening hours (initially hidden) -->
+    <div id="timeStampWidget" style="display: none;">
+        <!-- Widget content goes here -->
+        <h2>Opening Hours</h2>
+        <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
+        <p>Saturday: 10:00 AM - 4:00 PM</p>
+        <p>Sunday: Closed</p>
+    </div>
+
+    <!-- Date Picker for Summary -->
+    <div class="date-picker-container">
+        <input type="text" id="datepicker-summary" placeholder="Select Date">
+    </div>
+
+    <!-- Summary Header -->
+    <h2 class="summary-header">Summary</h2>
+    <!-- Horizontal Line -->
+    <div class="summary-line"></div>
+
+    <!-- Summary Boxes -->
+    <div class="container">
+        <div class="summary-box">
+            <p>Bookings per Day</p>
+            <p>R200</p>
+        </div>
+        <div class="summary-box">
+            <p>Return Bookings</p>
+            <p>R300</p>
+        </div>
+        <div class="summary-box" id="grossRevenueBox" style="display: none;"> <!-- Hide Gross Revenue box by default -->
+            <p>Gross Revenue</p>
+            <p>R500</p>
+        </div>
+        <div class="summary-box">
+            <p>Cost % of Net Revenue</p>
+            <p>R400</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <iframe id="meterReadingApp" src="test no1 good.html" frameborder="0" width="100%" height="1000"></iframe>
+    </div>
+
+    <!-- Date Picker for Details -->
+    <div class="date-picker-container">
+        <input type="text" id="datepicker-details" placeholder="Select Date">
+    </div>
+
+    <!-- Table -->
+    <h2 class="summary-header">Details</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Bookings</th>
+                <th>Amount</th>
+                <th>Profit</th>
+                <th>Status</th>
+                <!-- Additional headers -->
+                    
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Table rows will be dynamically added here -->
+            <tr>
+                <td>Date1</td>
+                <td>Booking1</td>
+                <td>Amount1</td>
+                <td>Profit1</td>
+                <td>Status1</td>
+                <!-- Additional data -->                                       
+            </tr>
+            <!-- Repeat this row structure for more data -->
+        </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <div class="pagination">
+        <a href="#" class="page-link">&laquo; Previous</a>
+        <a href="#" class="page-link">Next &raquo;</a>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        This is the footer.
+    </div>
+
+    <!-- Funeral Cover Qualifiers Section -->
+    <div id="funeral-cover-qualifiers">
+        <!-- Add the content for Funeral cover Qualifiers page here -->
+        <h2>Funeral cover Qualifiers</h2>
+        <p>This is the content of the Funeral cover Qualifiers page.</p>
+    </div>
+
+    <script>
+        // Function to toggle profile dropdown menu
+        function toggleProfileDropdown() {
+            var dropdown = document.getElementById('profileDropdown');
+            if (dropdown.style.display === 'block') {
+                dropdown.style.display = 'none';
+            } else {
+                dropdown.style.display = 'block';
+            }
+        }
+
+        // Function to show the meter reading app
+        function showMeterReadingApp() {
+            var meterReadingApp = document.getElementById('meterReadingApp');
+            meterReadingApp.style.display = 'block';
+        }
+
+        // Function to toggle the visibility of the time stamp widget
+        function toggleTimeStampWidget() {
+            var widget = document.getElementById('timeStampWidget');
+            if (widget.style.display === 'block') {
+                widget.style.display = 'none';
+            } else {
+                widget.style.display = 'block';
+            }
+        }
+
+        // Function to show the gross revenue box
+        function showGrossRevenuePage() {
+            var grossRevenueBox = document.getElementById('grossRevenueBox');
+            grossRevenueBox.style.display = 'flex'; // Change display to flex to make it visible
+        }
+
+        // Function to show the return bookings content
+        function showReturnBookings() {
+            var returnBookings = document.getElementById('return-bookings');
+            // Load content from return_bookings.html file
+            returnBookings.innerHTML = '<object type="text/html" data="return_bookings.html" style="width: 100%; height: 1000px;"></object>';
+        }
+
+        // Function to show the funeral cover qualifiers section
+        function showFuneralCoverQualifiers() {
+            var funeralCoverQualifiers = document.getElementById('funeral-cover-qualifiers');
+            funeralCoverQualifiers.style.display = 'block'; // Show the funeral cover qualifiers section
+        }
+
+        // jQuery UI for datepicker
+        $(function() {
+            $("#datepicker-summary").datepicker();
+            $("#datepicker-details").datepicker();
+        });
+
+        // Function to extract URL parameters
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        // Retrieve affiliate link from URL parameters
+        var affiliateLink = getParameterByName('affiliateLink');
+
+        // Display affiliate link above the header summary
+        if (affiliateLink) {
+            var affiliateLinkContainer = document.getElementById('affiliateLinkContainer');
+            affiliateLinkContainer.innerHTML = "Affiliate Link: " + affiliateLink;
+        }
+    </script>
+</body>
+</html>

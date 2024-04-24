@@ -1,0 +1,42 @@
+.logo {
+    display: block;
+    margin: 20px auto; /* Center the image horizontally and add some top margin */
+    width: 10%; /* Decrease the width by 80% */
+}
+
+/* Default styles */
+.toggle-details {
+    cursor: pointer;
+    float: right; /* Position the dropdown icon to the far right */
+    margin-left: calc(50% - 3px); /* Adjust margin to bring it closer */
+}
+
+.booking-details {
+    display: none;
+    margin-top: 10px;
+}
+
+.booking-details.show {
+    display: block;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+    .toggle-details {
+        float: none; /* Reset float to stack dropdown icon below customer info */
+        margin-left: 0; /* Remove left margin */
+        margin-top: 5px; /* Add some spacing between customer info and dropdown icon */
+    }
+
+.customer-info {
+    display: flex;
+    align-items: center; /* Align items vertically in the center */
+}
+
+.customer-details {
+    flex-grow: 1; /* Allow the customer details to grow and take up remaining space */
+}
+
+.plate-number {
+    margin-left: 10px; /* Add some margin between the name and plate number */
+}

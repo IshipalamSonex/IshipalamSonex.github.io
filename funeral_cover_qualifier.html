@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funeral Cover Qualifiers</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Additional CSS for professional styling */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px; /* Adjust spacing between logo and table */
+        }
+
+        .logo {
+            width: 150px; /* Adjust as needed */
+            height: auto; /* Maintain aspect ratio */
+        }
+
+        #funeral-cover-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px; /* Adjust spacing between logo and table */
+        }
+
+        #funeral-cover-table th,
+        #funeral-cover-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        #funeral-cover-table th {
+            background-color: #f2f2f2;
+        }
+
+        h1 {
+            margin-top: 20px; /* Adjust spacing between logo and header */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://ishipalam.co.za/wp-content/uploads/2024/03/1-1.png" alt="Logo" class="logo">
+        <h1>Funeral Cover Qualifiers</h1>
+    </div>
+    <div class="container">
+        <table id="funeral-cover-table">
+            <thead>
+                <tr>
+                    <th>Customer Name</th>
+                    <th>Plate Numbers</th>
+                    <th>Return Dates</th>
+                </tr>
+            </thead>
+            <tbody id="qualified-customers">
+                <!-- Qualified customers will be displayed here -->
+            </tbody>
+        </table>
+    </div>
+    <script src="return_bookings.js"></script>
+    <script>
+        // Your JavaScript code to fetch and filter return bookings data goes here
+        // Once filtered, populate the #qualified-customers tbody with the qualified customers
+    </script>
+</body>
+</html>
