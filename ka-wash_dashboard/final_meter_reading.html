@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ka-Wash Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Additional CSS for the navigation bar */
+        .navbar {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)); /* Black semi-transparent gradient background */
+            color: yellow; /* Yellow wording */
+            padding: 10px 0; /* Adjust padding */
+        }
+
+        .nav-item {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Ka-Wash Dashboard - Water Meter Reading</h1>
+        <div id="reminderBell" class="reminder-bell" onclick="toggleHistory()">
+            <img src="https://ishipalam.co.za/wp-content/uploads/2024/03/Notification-bell-icon-new-message-bell-Premium-vector-PNG.png" alt="Bell icon">
+        </div>
+        <!-- Removed navigation icon -->
+        <nav class="navbar" id="navbar">
+            <div class="nav-item" onclick="toggleHistory()">History Readings</div>
+            <div class="nav-item" onclick="toggleDatePickers()">Date Picker</div>
+        </nav>
+        <form id="meterReadingForm" action="#" method="post" onsubmit="return confirmReading()">
+            <label for="reading">Water Meter Reading:</label>
+            <input type="number" id="reading" name="reading" required>
+            <button type="submit">Log Reading</button>
+        </form>
+    </div>
+    <footer class="footer">
+        <h2>Lets drill a Borehole together</h2>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        function toggleNavbar() {
+            var navbar = document.getElementById('navbar');
+            if (navbar.style.display === 'none' || navbar.style.display === '') {
+                navbar.style.display = 'flex';
+            } else {
+                navbar.style.display = 'none';
+            }
+        }
+
+        // Function to toggle visibility of history readings
+        function toggleHistory() {
+            var historyPage = document.getElementById('historyPage');
+            if (historyPage.style.display === 'none' || historyPage.style.display === '') {
+                historyPage.style.display = 'block';
+            } else {
+                historyPage.style.display = 'none';
+            }
+        }
+
+        // Function to toggle visibility of date pickers
+        function toggleDatePickers() {
+            var datePickerPage = document.getElementById('datePickerPage');
+            if (datePickerPage.style.display === 'none' || datePickerPage.style.display === '') {
+                datePickerPage.style.display = 'block';
+            } else {
+                datePickerPage.style.display = 'none';
+            }
+        }
+    </script>
+
+    <!-- Embed the "History Readings" page -->
+    <div id="historyPage" style="display: none;">
+        <iframe src="history_readings.html" frameborder="0" width="100%" height="100%"></iframe>
+    </div>
+
+    <!-- Embed the "Date Picker" page -->
+    <div id="datePickerPage" style="display: none;">
+        <iframe src="date_picker.html" frameborder="0" width="100%" height="100%"></iframe>
+    </div>
+</body>
+</html>

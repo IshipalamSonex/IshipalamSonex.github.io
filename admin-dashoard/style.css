@@ -1,0 +1,153 @@
+/* Reset styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Basic styles */
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Adjust header styles */
+.header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    justify-content: center; /* Center the content horizontally */
+    align-items: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Align items to the right */
+    position: absolute;
+    top: 20px; /* Adjust top position */
+    right: 20px; /* Adjust right position */
+    flex-direction: row-reverse; /* Reverse the direction of flex items */
+}
+
+.user span {
+    margin-left: 10px;
+}
+
+/* Adjust sidebar styles */
+.sidebar {
+    background-color: rgba(85, 85, 85, 0.8); /* Semi-transparent background */
+    color: #fff;
+    width: 200px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding-top: 60px;
+}
+
+.sidebar ul {
+    list-style-type: none;
+}
+
+.sidebar li {
+    padding: 10px;
+}
+
+.sidebar a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+}
+
+.sidebar a:hover {
+    background-color: #777;
+}
+
+/* Adjust main content area */
+.main {
+    margin-left: 200px;
+    padding: 20px;
+    padding-top: 100px; /* Add padding to avoid content overlapping with the header */
+}
+
+/* Adjust footer styles */
+.footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Adjust summary container styles */
+.summary-container {
+    background: linear-gradient(to bottom, rgba(255, 255, 0, 0.7), rgba(0, 0, 0, 0.7)); /* Yellow to black gradient with transparency */
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px auto; /* Center the container horizontally */
+    max-width: 700px; /* Limit maximum width for responsiveness */
+    height: 400px; /* Adjust the height as needed */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.summary-icons {
+    display: flex;
+    justify-content: center; /* Center the icons horizontally */
+    align-items: center; /* Center the icons vertically */
+    margin-bottom: 40px; /* Adjust margin bottom as needed */
+}
+
+.summary-icons i {
+    font-size: 48px;
+    color: white;
+}
+
+/* Adjust graphs styles */
+.graphs {
+    display: flex;
+    justify-content: center; /* Center the graphs horizontally */
+    align-items: center; /* Center the graphs vertically */
+    margin-bottom: 80px;
+    flex-wrap: wrap; /* Allow flex items to wrap to the next line */
+}
+
+.graph {
+    width: 30%; /* Adjust the width of each graph */
+    height: 300px; /* Set a fixed height for the graphs */
+    margin: 10px; /* Add margin to separate graphs */
+}
+
+/* Adjust information table styles */
+.information-table {
+    margin: 0 auto; /* Center the table horizontally */
+}
+
+/* Ensure responsiveness */
+@media (max-width: 768px) {
+    .summary-container {
+        padding: 10px;
+    }
+    
+    .summary-icons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .graphs {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .graph {
+        width: 100%;
+    }
+}

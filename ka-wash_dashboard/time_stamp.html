@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Time Stamp with Light Bulbs</title>
+<style>
+/* CSS Styles */
+.header-container {
+    background: linear-gradient(to right, #000000, #333333);
+    color: yellow;
+    padding: 20px;
+    text-align: center;
+}
+
+.booking-container {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    position: relative;
+    background: linear-gradient(to right, #eee, #ccc); /* Gradient grey and white */
+}
+
+.footer-container {
+    background: linear-gradient(to right, rgba(0,0,0,0.5), rgba(0,0,0,0));
+    color: yellow;
+    padding: 20px;
+    text-align: center;
+}
+
+.switch-container {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+.switch {
+    display: inline-block;
+    width: 48px; /* Adjusted width */
+    height: 28px; /* Adjusted height */
+    background-color: red; /* Default color for off */
+    border-radius: 20px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s; /* Added transition for smooth animation */
+}
+
+.switch::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 20px; /* Adjusted width */
+    height: 20px; /* Adjusted height */
+    background-color: white;
+    border-radius: 50%;
+    transition: all 0.3s; /* Added transition for smooth animation */
+}
+
+.switch.on {
+    background-color: green; /* Color for on */
+    transform: translateX(20px); /* Move switch to the right */
+}
+
+.switch.on::after {
+    transform: translateX(20px); /* Move inner circle to the right */
+}
+
+.switch.off::after {
+    transform: translateX(0px); /* Move inner circle to the left */
+}
+</style>
+</head>
+<body>
+<div class="header-container">
+    <h1>Time Stamp</h1>
+</div>
+
+<div id="time-stamps" class="time-stamp-page">
+    <!-- Switches will be dynamically created here -->
+</div>
+
+<div class="footer-container">
+    <p>Remember to be in charge of your time</p>
+</div>
+
+<script>
+// JavaScript code
+// Availability data for all time frames from 7:30 AM to 6:30 PM
+const availabilityData = generateAvailabilityData();
+
+// Function to generate availability data for all time frames from 7:30 AM to 6:30 PM
+function generateAvailabilityData() {
+    const availabilityData = [];
+    // Start from 7:30 AM
+    let hour = 7;
+    let minute = 30;
+    
+    // Loop through each time frame until 6:30 PM
+    while (hour <= 18) { // 18 represents 6 PM in 24-hour format
+        const time = `${hour < 10 ? '0' + hour : hour}:${minute < 10 ? '0' + minute : minute} ${hour < 12 ? 'AM' : 'PM'}`;
+        availabilityData.push({ time: time, available: false }); // Set all time slots to not available initially
+        // Increment time by 30 minutes
+        if (minute === 30) {
+            hour++;
+            minute = 0;
+        } else {
+            minute = 30;
+        }
+    }
+    return availabilityData;
+}
+
+// Function to create switches based on availability data
+function createSwitches() {
+    const timeStampPageElement = document.getElementById('time-stamps');
+
+    availabilityData.forEach(slot => {
+        const container = document.createElement('div');
+        container.classList.add('booking-container');
+
+        const timeElement = document.createElement('div');
+        timeElement.classList.add('time');
+        timeElement.textContent = slot.time;
+
+        const switchContainer = document.createElement('div');
+        switchContainer.classList.add('switch-container');
+
+        const availabilitySwitch = document.createElement('div');
+        availabilitySwitch.classList.add('switch');
+        availabilitySwitch.classList.add(slot.available ? 'on' : 'off');
+        availabilitySwitch.addEventListener('click', () => toggleAvailability(slot, availabilitySwitch));
+
+        switchContainer.appendChild(availabilitySwitch);
+        container.appendChild(timeElement);
+        container.appendChild(switchContainer);
+
+        timeStampPageElement.appendChild(container);
+    });
+}
+
+// Function to toggle availability
+function toggleAvailability(slot, switchElement) {
+    slot.available = !slot.available;
+    switchElement.classList.toggle('on');
+    switchElement.classList.toggle('off');
+
+    // Update light bulb (communicate availability to the light bulbs on another page)
+    updateLightBulb(slot.time, slot.available);
+}
+
+// Function to update light bulb based on availability status
+function updateLightBulb(time, available) {
+    // Simulate communication with light bulbs on another page
+    console.log(`Time: ${time}, Availability: ${available ? 'Available' : 'Not Available'}`);
+}
+
+// Call the function to create switches
+createSwitches();
+</script>
+</body>
+</html>

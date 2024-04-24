@@ -1,0 +1,35 @@
+.order-details {
+    display: none;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    margin-top: 10px; /* Add margin-top to separate details from the customer info */
+}
+
+.order-details.show {
+    display: block;
+}
+#bookingTable {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#bookingTable th, #bookingTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+#bookingTable th {
+    background-color: #f2f2f2;
+}
+
+#bookingTable tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+#bookingTable {
+    border-collapse: collapse;
+    width: ; /* Set width to auto to allow the table to adjust based on content */
+    max-width: 100%; /* Limit the maximum width of the table to 100% of its container */
+    margin-bottom: -50px; /* Adjust the margin bottom as needed */
+}

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Page</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            background-image: url('https://ishipalam.co.za/wp-content/uploads/2024/02/Add-a-little-bit-of-body-text.png');
+            background-size: cover;
+        }
+
+        .logo img {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 20px;
+        }
+
+        form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="https://ishipalam.co.za/wp-content/uploads/2024/02/1-removebg-preview-3-300x300.png" alt="Logo">
+        </div>
+        <form id="signupForm">
+            <div>
+                <label for="carWashName">Car Wash Name:</label>
+                <input type="text" id="carWashName" name="carWashName" required>
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div>
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="address" required>
+            </div>
+            <div>
+                <label for="postalCode">Postal Code:</label>
+                <input type="text" id="postalCode" name="postalCode" required>
+            </div>
+            <div>
+                <label for="image">Image:</label>
+                <input type="file" id="image" name="image">
+            </div>
+            <div>
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" name="firstName" required>
+            </div>
+            <div>
+                <label for="surname">Surname:</label>
+                <input type="text" id="surname" name="surname" required>
+            </div>
+            <div>
+                <label for="gender">Gender:</label>
+                <select id="gender" name="gender" required>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div>
+                <label for="dob">Date of Birth:</label>
+                <input type="date" id="dob" name="dob" required>
+            </div>
+            <div>
+                <label for="city">City:</label>
+                <input type="text" id="city" name="city" required>
+            </div>
+            <button type="submit">Signup</button>
+        </form>
+    </div>
+
+    <div id="errors" class="error"></div>
+
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Get form values
+            var carWashName = document.getElementById('carWashName').value;
+            var address = document.getElementById('address').value;
+            var city = document.getElementById('city').value;
+            var name = document.getElementById('firstName').value + ' ' + document.getElementById('surname').value;
+
+            // Generate unique affiliate link based on form values
+            var affiliateLink = generateAffiliateLink(name, address, carWashName);
+
+            // Add user to usersByTownship object
+            if (!usersByTownship.hasOwnProperty(city)) {
+                usersByTownship[city] = [];
+            }
+            usersByTownship[city].push({
+                name: name,
+                address: address,
+                carWashName: carWashName,
+                affiliateLink: affiliateLink
+            });
+
+            // Recreate containers with updated user information
+            document.getElementById('container-div').innerHTML = '';
+            createContainers();
+
+            // Clear form fields
+            document.getElementById('carWashName').value = '';
+            document.getElementById('address').value = '';
+            document.getElementById('city').value = '';
+            document.getElementById('firstName').value = '';
+            document.getElementById('surname').value = '';
+
+            // Display success message
+            alert('Signup successful!');
+        });
+
+        // Sample user information categorized by township
+        var usersByTownship = {};
+
+        // Function to generate affiliate link
+        function generateAffiliateLink(name, address, carWashName) {
+            // Generate unique link based on provided information
+            return 'https://example.com/affiliate/' + encodeURIComponent(name) + '/' + encodeURIComponent(address) + '/' + encodeURIComponent(carWashName);
+        }
+
+        // Function to create container holders for each user based on township
+        function createContainers() {
+            var containerDiv = document.getElementById('container-div');
+            Object.keys(usersByTownship).forEach(function(township) {
+                var users = usersByTownship[township];
+                var townshipHeader = document.createElement('h2');
+                townshipHeader.textContent = township;
+                containerDiv.appendChild(townshipHeader);
+                var wrapper = document.createElement('div');
+                wrapper.className = 'container-wrapper';
+                users.forEach(function(user) {
+                    var container = document.createElement('div');
+                    container.className = 'booking-container';
+                    container.innerHTML = `
+                        <div class="user-info">
+                            <p><strong>Name:</strong> ${user.name}</p>
+                            <p><strong>Address:</strong> ${user.address}</p>
+                            <p><strong>Car Wash:</strong> ${user.carWashName}</p>
+                        </div>
+                        <!-- Light bulb indicator -->
+                        <div class="light-bulb"></div>
+                        <!-- Book button -->
+                        <button class="book-button" onclick="book('${user.affiliateLink}')">Book</button>
+                        <!-- Time stamp -->
+                        <div class="time-stamp-container">
+                            <div class="time-stamp" onclick="toggleLightBulb(this)"></div>
+                        </div>
+                    `;
+                    wrapper.appendChild(container);
+                });
+                containerDiv.appendChild(wrapper);
+            });
+        }
+
+        // Function to redirect to the affiliate link
+        function book(affiliateLink) {
+            window.location.href = affiliateLink;
+        }
+
+        // Function to toggle light bulb color based on availability
+        function toggleLightBulb(timeStamp) {
+            timeStamp.classList.toggle('on');
+            var container = timeStamp.closest('.booking-container');
+            container.classList.toggle('available');
+            var lightBulb = container.querySelector('.light-bulb');
+            lightBulb.style.backgroundColor = container.classList.contains('available') ? 'green' : 'red';
+        }
+    </script>
+</body>
+</html>

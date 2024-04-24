@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+    <style>
+        /* Add any custom styles here */
+    </style>
+</head>
+<body>
+    <img src="https://ishipalam.co.za/wp-content/uploads/2024/03/1-1.png" alt="Logo" style="display: block; margin: 0 auto; width: 90%; max-width: 150px;">
+    <div class="container">
+        <h1>Bookings per day</h1>
+        <div class="controls">
+            <label for="filter">Filter by Date:</label>
+            <input type="text" id="filter" placeholder="Select date">
+            <button onclick="applyFilter()">Apply Filter</button>
+            <button onclick="resetFilter()">Reset Filter</button>
+            <label for="sort">Sort by Date:</label>
+            <select id="sort" onchange="applySort()">
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+            </select>
+        </div>
+        <table id="bookingTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody id="bookingBody">
+                <!-- Booking information will be dynamically inserted here -->
+            </tbody>
+        </table>
+        <div id="pagination"></div>
+    </div>
+    <script>
+        // Function to extract affiliate ID from URL
+        function getAffiliateIDFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('affiliate_id'); // Assuming 'affiliate_id' is the parameter name
+        }
+
+        // Function to retrieve bookings associated with the affiliate ID
+        function fetchBookingsByAffiliateID(affiliateID) {
+            // Perform an AJAX request to your server to retrieve bookings associated with the affiliate ID
+            // Example:
+            // $.ajax({
+            //     url: 'backend_endpoint_for_bookings.php',
+            //     method: 'GET',
+            //     data: { affiliateID: affiliateID },
+            //     success: function(response) {
+            //         var bookings = response.bookings;
+            //         displayBookings(bookings);
+            //     },
+            //     error: function(xhr, status, error) {
+            //         console.error("Failed to fetch bookings:", error);
+            //     }
+            // });
+
+            // For demonstration, dummy bookings data
+            var bookings = [
+                { name: 'Booking 1', date: '2024-04-15', time: '10:00 AM', price: 'R200' },
+                { name: 'Booking 2', date: '2024-04-15', time: '11:00 AM', price: 'R250' },
+                // Add more bookings as needed
+            ];
+            displayBookings(bookings);
+        }
+
+        // Function to display bookings
+        function displayBookings(bookings) {
+            // Clear existing bookings
+            var bookingsContainer = document.getElementById('bookingBody');
+            bookingsContainer.innerHTML = '';
+
+            // Display bookings
+            bookings.forEach(function(booking) {
+                var row = document.createElement('tr');
+                row.innerHTML = '<td>' + booking.name + '</td>' +
+                                '<td>' + booking.date + '</td>' +
+                                '<td>' + booking.time + '</td>' +
+                                '<td>' + booking.price + '</td>';
+                bookingsContainer.appendChild(row);
+            });
+        }
+
+        // Function to apply filter
+        function applyFilter() {
+            var filterDate = document.getElementById('filter').value;
+            // You can implement filtering logic here if needed
+            // For demonstration, let's fetch all bookings again
+            var affiliateID = getAffiliateIDFromURL();
+            fetchBookingsByAffiliateID(affiliateID);
+        }
+
+        // Function to reset filter
+        function resetFilter() {
+            document.getElementById('filter').value = '';
+            var affiliateID = getAffiliateIDFromURL();
+            fetchBookingsByAffiliateID(affiliateID);
+        }
+
+        // Function to apply sorting
+        function applySort() {
+            var sortType = document.getElementById('sort').value;
+            // You can implement sorting logic here if needed
+            // For demonstration, let's fetch all bookings again
+            var affiliateID = getAffiliateIDFromURL();
+            fetchBookingsByAffiliateID(affiliateID);
+        }
+
+        // Fetch bookings associated with the affiliate ID when the page loads
+        document.addEventListener("DOMContentLoaded", function () {
+            var affiliateID = getAffiliateIDFromURL();
+            if (affiliateID) {
+                fetchBookingsByAffiliateID(affiliateID);
+            } else {
+                console.error("Affiliate ID not found in URL.");
+            }
+        });
+    </script>
+</body>
+</html>
