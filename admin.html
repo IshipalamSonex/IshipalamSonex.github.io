@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <!-- Add a link to FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Add Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Reset styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Basic styles */
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        /* Header styles */
+        .header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            display: flex;
+            justify-content: center; /* Center the content horizontally */
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+
+        .user {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end; /* Align items to the right */
+            position: absolute;
+            top: 20px; /* Adjust top position */
+            right: 20px; /* Adjust right position */
+            flex-direction: row-reverse; /* Reverse the direction of flex items */
+        }
+
+        .user span {
+            margin-left: 10px;
+        }
+
+        /* Sidebar styles */
+        .sidebar {
+            background-color: rgba(85, 85, 85, 0.8); /* Semi-transparent background */
+            color: #fff;
+            width: 200px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 60px;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+        }
+
+        .sidebar li {
+            padding: 10px;
+        }
+
+        .sidebar a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+        }
+
+        .sidebar a:hover {
+            background-color: #777;
+        }
+
+        /* Main content area */
+        .main {
+            margin-left: 200px;
+            padding: 20px;
+            padding-top: 100px; /* Add padding to avoid content overlap with the header */
+        }
+
+        /* Footer styles */
+        .footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* Summary container styles */
+        .summary-container {
+            background: linear-gradient(to bottom, rgba(255, 255, 0, 0.7), rgba(0, 0, 0, 0.7)); /* Yellow to black gradient with transparency */
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto; /* Center the container horizontally */
+            max-width: 900px; /* Limit maximum width for responsiveness */
+            height: 400px; /* Adjust the height as needed */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .summary-icons {
+            display: flex;
+            justify-content: center; /* Center the icons horizontally */
+            align-items: center; /* Center the icons vertically */
+            margin-bottom: 40px; /* Adjust margin bottom as needed */
+        }
+
+        .summary-icons i {
+            font-size: 48px;
+            color: white;
+        }
+
+        .graphs {
+            display: flex;
+            justify-content: center; /* Center the graphs horizontally */
+            align-items: center; /* Center the graphs vertically */
+            margin-bottom: 80px;
+            flex-wrap: wrap; /* Allow flex items to wrap to the next line */
+        }
+
+        .graph {
+            width: 30%; /* Adjust the width of each graph */
+            height: 300px; /* Set a fixed height for the graphs */
+            margin: 10px; /* Add margin to separate graphs */
+        }
+
+        .information-table {
+            margin: 0 auto; /* Center the table horizontally */
+        }
+
+        /* Ensure responsiveness */
+        @media (max-width: 768px) {
+            .summary-container {
+                padding: 10px;
+            }
+            
+            .summary-icons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .graphs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .graph {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1>Admin Dashboard</h1>
+        <div class="user">
+            <i class="fas fa-user"></i>
+            <span>User123</span> <!-- Replace with actual username -->
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <ul>
+            <li><a href="#" onclick="trackUserMovement('user123')"><i class="fas fa-chart-line"></i> Track User Movement</a></li>
+            <li><a href="#" onclick="changeUserPassword('user123', 'newpassword')"><i class="fas fa-key"></i> Change Password</a></li>
+            <li><a href="#" onclick="deactivateUserAccount('user123')"><i class="fas fa-user-slash"></i> Deactivate Account</a></li>
+            <li><a href="#" onclick="trackBookingStore()"><i class="fas fa-calendar-alt"></i> Track Booking Store</a></li>
+            <li><a href="#" onclick="trackFuneralCoverQualifiers()"><i class="fas fa-cross"></i> Track Funeral Cover Qualifiers</a></li>
+            <li><a href="#" onclick="displayAllReadings()"><i class="fas fa-history"></i> Display All Readings</a></li>
+            <li><a href="#" onclick="trackStatusScore()"><i class="fas fa-chart-bar"></i> Track Status Score</a></li>
+        </ul>
+    </div>
+
+    <!-- Main content area -->
+    <div class="main">
+        <!-- Content goes here -->
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        &copy; 2024 Admin Dashboard
+    </div>
+
+    <!-- Summary container -->
+    <div class="summary-container">
+        <!-- Summary Icons -->
+        <div class="summary-icons">
+            <!-- Add your 3D summary icons here -->
+            <i class="fas fa-chart-bar"></i>
+            <i class="fas fa-chart-pie"></i>
+            <i class="fas fa-table"></i>
+        </div>
+        
+        <!-- Graphs -->
+        <div class="graphs">
+            <!-- Add your graphs here -->
+            <div id="graph1" class="graph"></div>
+            <div id="graph2" class="graph"></div>
+            <div id="graph3" class="graph"></div>
+        </div>
+        
+        <!-- Information Table -->
+        <div class="information-table">
+            <!-- Add your information table here -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Date</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody id="readings-table-body">
+                    <!-- Readings data will be rendered here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Function to track user movement
+        function trackUserMovement(userId) {
+            // Code to track user movement and update dashboard
+            console.log("Tracking user movement for user ID: " + userId);
+        }
+
+        // Function to change user password
+        function changeUserPassword(userId, newPassword) {
+            // Code to change user password
+            console.log("Changing password for user ID: " + userId + " to: " + newPassword);
+        }
+
+        // Function to deactivate user account
+        function deactivateUserAccount(userId) {
+            // Code to deactivate user account
+            console.log("Deactivating user account for user ID: " + userId);
+        }
+
+        // Function to track booking store
+        function trackBookingStore() {
+            // Code to track booking store and update dashboard
+            console.log("Tracking booking store");
+            // Update pie chart with booking summary data
+            updatePieChart();
+        }
+
+        // Function to track funeral cover qualifiers
+        function trackFuneralCoverQualifiers() {
+            // Code to track funeral cover qualifiers and update dashboard
+            console.log("Tracking funeral cover qualifiers");
+        }
+
+        // Function to display all readings in the history page
+        function displayAllReadings() {
+            // Code to display all readings in the history page
+            console.log("Displaying all readings in the history page");
+        }
+
+        // Function to track status score
+        function trackStatusScore() {
+            // Code to track status score and update dashboard
+            console.log("Tracking status score");
+        }
+
+        // Function to update pie chart with booking summary data
+        function updatePieChart() {
+            // Dummy data for demonstration
+            const pieChartData = {
+                labels: ['Booked', 'Available', 'Reserved'],
+                datasets: [{
+                    label: 'Booking Summary',
+                    data: [30, 50, 20],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(255, 206, 86, 0.7)'
+                    ],
+                    borderWidth: 1
+                }]
+            };
+
+            // Get pie chart canvas element
+            const pieChartCanvas = document.getElementById('pieChart');
+
+            // Initialize pie chart
+            const pieChart = new Chart(pieChartCanvas, {
+                type: 'pie',
+                data: pieChartData
+            });
+        }
+    </script>
+</body>
+</html>
